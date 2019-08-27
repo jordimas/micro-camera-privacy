@@ -4,7 +4,7 @@ const Tweener = imports.ui.tweener;
 const Lang = imports.lang;
 const GLib = imports.gi.GLib;
 const Mainloop = imports.mainloop;
-
+const ByteArray = imports.byteArray;
 
 const MicroCameraPrivacy = class MicroCameraPrivacy
 {
@@ -34,14 +34,11 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
     }
 
     _check_webcam() {
-        global.log('_check_webcam called');
+        global.log('_check_webcam started');
 
-        global.log("Before");
         let array = GLib.spawn_command_line_sync("fuser /dev/video0")[1];
-        ///let stuff = GLib.ByteArray.toString(array);
-        let stuff = array.toString();
-        global.log("[" + stuff +"]");
-        global.log("After");
+        let stuff = ByteArray.toString(array);
+        global.log("/dev/video0: [" + stuff +"]");
 
         if (stuff) {
             if (this.camera_enabled == false)
@@ -54,7 +51,7 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
     
             this.camera_enabled = false;
         }
-        global.log("Completed");
+        global.log('_check_webcam called finished');
         return true;
     }
 
