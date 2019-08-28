@@ -7,7 +7,7 @@ camera is used.
 ## License
 
 micro-camara-privacy is distributed under the terms of the GNU General
-Public License, version 2 or later. See the [COPYING file][license] for details.
+Public License, version 2 or later. See the [COPYING](license) for details.
 Individual extensions may be licensed under different terms, see each source
 file for details.
 
