@@ -10,10 +10,13 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
 {
     constructor() {
         this.camera_enabled = false;
+        this.camera_time = 0;
+        this.microphone_time = 0;
     }
 
     _show_webcam() {
         global.log('_show_webcam called');
+
         this.webcam_button = new St.Bin({ style_class: 'panel-button',
                               reactive: true,
                               can_focus: true,
@@ -34,11 +37,12 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
     }
 
     _check_webcam() {
-        global.log('_check_webcam started');
+        //global.log('_check_webcam started');
+        let startTime = new Date();
 
         let array = GLib.spawn_command_line_sync("fuser /dev/video0")[1];
         let stuff = ByteArray.toString(array);
-        global.log("/dev/video0: [" + stuff +"]");
+        //global.log("/dev/video0: [" + stuff +"]");
 
         if (stuff) {
             if (this.camera_enabled == false)
@@ -51,13 +55,18 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
     
             this.camera_enabled = false;
         }
-        global.log('_check_webcam called finished');
+
+        let elapsed_time = new Date() - startTime;
+        this.camera_time = this.camera_time + elapsed_time;
+        
+        global.log('_check_webcam called finished ' + this.camera_time);
         return true;
     }
 
 
   _show_microphone() {
         global.log('_show_microphone called');
+        let startTime = new Date();
         this.microphone_button = new St.Bin({ style_class: 'panel-button',
                               reactive: true,
                               can_focus: true,
@@ -78,11 +87,12 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
     }
 
     _check_microphone() {
-        global.log('_check_microphone started');
+        //global.log('_check_microphone started');
+        let startTime = new Date();
 
         let array = GLib.spawn_command_line_sync("pacmd list-source-outputs")[1];
         let stuff = ByteArray.toString(array);
-        global.log("pacmd list-source-outputs: [" + stuff +"]");
+        //global.log("pacmd list-source-outputs: [" + stuff +"]");
 
         if (stuff.includes('state: RUNNING')) {
             if (this.microphone_enabled == false)
@@ -95,7 +105,10 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
     
             this.microphone_enabled = false;
         }
-        global.log('_check_microphone called finished');
+
+        let elapsed_time = new Date() - startTime;
+        this.microphone_time = this.microphone_time + elapsed_time;
+        global.log('_check_microphone called finished '+ this.microphone_time);
         return true;
     }
 
