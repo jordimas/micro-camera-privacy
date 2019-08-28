@@ -1,6 +1,5 @@
 const St = imports.gi.St;
 const Main = imports.ui.main;
-const Tweener = imports.ui.tweener;
 const Lang = imports.lang;
 const GLib = imports.gi.GLib;
 const Mainloop = imports.mainloop;
@@ -10,6 +9,7 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
 {
     constructor() {
         this.camera_enabled = false;
+        this.microphone_enabled = false;
     }
 
     _show_webcam() {
@@ -37,10 +37,10 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
         global.log('_check_webcam started');
 
         let array = GLib.spawn_command_line_sync("fuser /dev/video0")[1];
-        let stuff = ByteArray.toString(array);
-        global.log("/dev/video0: [" + stuff +"]");
+        let output = ByteArray.toString(array);
+        global.log("/dev/video0: [" + output +"]");
 
-        if (stuff) {
+        if (output) {
             if (this.camera_enabled == false)
                  this._show_webcam();
     
@@ -81,10 +81,10 @@ const MicroCameraPrivacy = class MicroCameraPrivacy
         global.log('_check_microphone started');
 
         let array = GLib.spawn_command_line_sync("pacmd list-source-outputs")[1];
-        let stuff = ByteArray.toString(array);
-        global.log("pacmd list-source-outputs: [" + stuff +"]");
+        let output = ByteArray.toString(array);
+        global.log("pacmd list-source-outputs: [" + output +"]");
 
-        if (stuff.includes('state: RUNNING')) {
+        if (output.includes('state: RUNNING')) {
             if (this.microphone_enabled == false)
                  this._show_microphone();
     
