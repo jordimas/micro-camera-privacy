@@ -1,1 +1,1 @@
-{"name": "micro-camera-privacy", "description": "Shows when microphone or camera is used", "uuid": "micro_camera_privacy@jmas.softcatala.org", "shell-version": ["3.32", "3.34"]}
+{"name": "micro-camera-privacy", "url": "https://github.com/jordimas/micro-camera-privacy", "description": "Shows when microphone or camera is used", "uuid": "micro_camera_privacy@jmas.softcatala.org", "shell-version": ["3.32", "3.34"]}
